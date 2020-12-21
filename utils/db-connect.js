@@ -11,9 +11,10 @@ export default async function dbConnect() {
 
   const url = process.env.DAGLIG_MONGODB_URI;
   const db = await mongoose.connect(url, {
+    w: 'majority',
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
+    retryWrites: true,
   });
 
   connection.isConnected = db.connections[0].readyState === 1;
