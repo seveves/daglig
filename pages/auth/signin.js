@@ -28,7 +28,7 @@ const SignInPage = ({ providers }) => {
             >
               <div className="d-flex align-items-center">
                 <Image
-                  src={`/${provider.name}.svg`}
+                  src={`/${provider.name.toLowerCase()}.svg`}
                   alt={`sign in with ${provider.name}`}
                   width="32"
                   height="32"
