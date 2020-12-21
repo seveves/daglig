@@ -8,7 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "bootstrap-icons": "^1.2.1",
     "date-fns": "^2.16.1",
     "insane": "^2.6.2",
     "jsonwebtoken": "^8.5.1",
