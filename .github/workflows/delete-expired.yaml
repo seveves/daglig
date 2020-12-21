@@ -9,6 +9,6 @@ jobs:
       - name: delete-expired API call
         run: |
           curl \
-          --url 'https://daglig.vercel.sh' \
+          --url 'https://daglig.vercel.app/api/remove-expired' \
           --header 'Accept: application/json' \
           --header 'Authorization: Bearer ${{ secrets.DAGLIG_BEARER_TOKEN }}'
