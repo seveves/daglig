@@ -1,0 +1,19 @@
+.likedisplay {
+
+}
+
+.iconbtn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.iconbtn:focus {
+  outline: none;
+}
+
+.iconbtn span {
+  padding-left: 0.5rem;
+}

@@ -1,0 +1,14 @@
+name: delete-expired-every-hour
+on:
+  schedule:
+    - cron: '*/60 * * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: delete-expired API call
+        run: |
+          curl \
+          --url 'https://daglig.vercel.sh' \
+          --header 'Accept: application/json' \
+          --header 'Authorization: Bearer ${{ secrets.DAGLIG_BEARER_TOKEN }}'

@@ -1,0 +1,27 @@
+{
+  "name": "daglig",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "bootstrap-icons": "^1.2.1",
+    "date-fns": "^2.16.1",
+    "insane": "^2.6.2",
+    "jsonwebtoken": "^8.5.1",
+    "marked": "^1.2.7",
+    "mongodb": "^3.6.0",
+    "mongoose": "^5.11.8",
+    "next": "10.0.3",
+    "next-auth": "^3.1.0",
+    "pretty-ms": "^7.0.1",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
+  },
+  "peerOptionalDependencies": {
+    "mongodb": "^3.6.0"
+  }
+}

@@ -1,0 +1,43 @@
+.writepost {
+  margin-top: 2rem;
+}
+
+.writepostform {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  width: 100%;
+  resize: none;
+  border: 4px solid var(--black);
+  border-radius: 4px;
+  padding: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14pt;
+  height: 200px;
+  line-height: 22pt;
+  text-align: justify;
+}
+
+.messagedetails {
+  text-align: right;
+  font-size: 10pt;
+  padding-right: 1rem;
+  color: var(--greydark);
+}
+
+.postbtn {
+  align-self: center;
+  width: 50%;
+}
+
+.headerstyle {
+  letter-spacing: 4px;
+  font-size: 18pt;
+  font-weight: bold;
+}
+
+.info {
+  font-size: 10pt;
+}
