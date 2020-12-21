@@ -21,14 +21,6 @@ const options = {
     maxAge: 2 * 24 * 60 * 60, // 2 days
     updateAge: 24 * 60 * 60 // 24 hours
   },
-  database: {
-    type: 'mongodb',
-    uri: process.env.DAGLIG_MONGODB_URI,
-    w: 'majority',
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    retryWrites: true,
-  },
   jwt: {
     secret: process.env.DAGLIG_JWT_SECRET,
   },

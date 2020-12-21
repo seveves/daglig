@@ -17,5 +17,5 @@ export default async function dbConnect() {
     retryWrites: true,
   });
 
-  connection.isConnected = db.connections[0].readyState === 1;
+  connection.isConnected = db.connections[0].readyState;
 }
