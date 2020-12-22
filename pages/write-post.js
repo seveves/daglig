@@ -3,9 +3,11 @@ import { getSession } from 'next-auth/client';
 
 import Daglig from '../models/daglig';
 import dbConnect from '../utils/db-connect';
+import { ttlExpired } from '../utils/ttl';
+import { dagligBack, dagligProps } from '../utils/daglig';
+
 import ProfileHead from '../components/ProfileHead';
 import WritePostForm from '../components/WritePostForm';
-import { ttlExpired } from '../utils/ttl';
 
 const WritePostPage = ({ daglig, ttl, back }) => {
   return (
@@ -52,26 +54,9 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      daglig: {
-        id: `${daglig._id}`,
-        username: daglig.username,
-        userid: daglig.userid,
-        image: daglig.image,
-        posts: daglig.posts
-          .map((p) => ({
-            createdAt: p.createdAt.getTime(),
-            message: p.message,
-            likes: p.likes.map((l) => `${l}`),
-          }))
-          .reverse(),
-        createdAt: daglig.createdAt.getTime(),
-      },
       ttl,
-      back: session
-        ? session.user.id !== daglig.userid
-          ? session.user.name
-          : false
-        : false,
+      daglig: dagligProps(daglig),
+      back: dagligBack(session, daglig),
     },
   };
 }

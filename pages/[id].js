@@ -5,10 +5,13 @@ import insane from 'insane';
 import marked from 'marked';
 import prettyms from 'pretty-ms';
 
-import Daglig from '../models/daglig';
 import styles from '../styles/daglig.module.css';
+
+import Daglig from '../models/daglig';
 import dbConnect from '../utils/db-connect';
 import { ttlExpired } from '../utils/ttl';
+import { dagligBack, dagligProps } from '../utils/daglig';
+
 import ProfileHead from '../components/ProfileHead';
 import LikeDisplay from '../components/LikeDisplay';
 
@@ -76,8 +79,6 @@ const DagligPage = ({ daglig, ttl, owner, back, userId }) => {
 };
 
 export async function getServerSideProps(context) {
-  await dbConnect();
-
   const redirect = {
     redirect: {
       destination: '/',
@@ -87,6 +88,8 @@ export async function getServerSideProps(context) {
 
   const name = context.params?.id;
   if (!name) return redirect;
+
+  await dbConnect();
   const daglig = await Daglig.findOne({ username: { $eq: name } });
   if (!daglig) return redirect;
 
@@ -98,29 +101,11 @@ export async function getServerSideProps(context) {
   const session = await getSession(context);
   return {
     props: {
-      daglig: {
-        id: `${daglig._id}`,
-        username: daglig.username,
-        userid: daglig.userid,
-        image: daglig.image,
-        posts: daglig.posts
-          .map((p) => ({
-            id: `${p._id}`,
-            createdAt: p.createdAt.getTime(),
-            message: p.message,
-            likes: p.likes.map((l) => `${l}`),
-          }))
-          .reverse(),
-        createdAt: daglig.createdAt.getTime(),
-      },
       ttl,
-      owner: session ? session.user.id === daglig.userid : false,
-      back: session
-        ? session.user.id !== daglig.userid
-          ? session.user.name || false
-          : false
-        : false,
+      daglig: dagligProps(daglig),
+      back: dagligBack(session, daglig),
       userId: session?.user?.id || null,
+      owner: session ? session.user.id === daglig.userid : false,
     },
   };
 }
