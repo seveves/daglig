@@ -12,4 +12,5 @@ jobs:
         with:
           node-version: '12'
           check-latest: true
+      - run: npm install mongoose
       - run: DAGLIG_MONGODB_URL=${{ secrets.DAGLIG_MONGODB_URL }} node migrations/migrate.mjs
