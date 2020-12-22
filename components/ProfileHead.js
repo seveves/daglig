@@ -18,7 +18,7 @@ const ProfileHead = ({ daglig, ttl, back }) => {
   });
   const left = Math.round(((ONE_DAY_IN_MS - ttl) / ONE_DAY_IN_MS) * 100);
   const grayscale = {
-    '-webkit-filter': `grayscale(${left}%)`,
+    WebkitFilter: `grayscale(${left}%)`,
     filter: `grayscale(${left}%)`,
   };
 
