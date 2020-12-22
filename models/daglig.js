@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-const DagligSchema = new mongoose.Schema({
+const initialSchemaDefinition = {
   username: {
     type: String,
     required: true,
@@ -12,7 +12,7 @@ const DagligSchema = new mongoose.Schema({
   image: String,
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   posts: [
     {
@@ -25,8 +25,28 @@ const DagligSchema = new mongoose.Schema({
       likes: [String],
     },
   ],
-});
+};
 
-const modelV1 = mongoose.models.DagligV1 || mongoose.model('DagligV1', DagligSchema);
+const DagligSchema = new mongoose.Schema(initialSchemaDefinition);
+const DagligV1 =
+  mongoose.models.DagligV1 || mongoose.model('DagligV1', DagligSchema);
 
-export default modelV1;
+const schemaUpdateV2 = {
+  ...initialSchemaDefinition,
+  favorites: [
+    {
+      _id: mongoose.Schema.Types.ObjectId,
+      dagligId: { type: String, required: true },
+      dagligUserName: { type: String, required: true },
+    },
+  ],
+};
+const DagligSchemaV2 = new mongoose.Schema(schemaUpdateV2);
+const DagligV2 =
+  mongoose.models.DagligV2 || mongoose.model('DagligV2', DagligSchemaV2);
+
+module.exports = {
+  DagligV1,
+  DagligV2,
+  Daglig: DagligV1,
+};

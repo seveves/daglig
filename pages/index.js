@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { getSession } from 'next-auth/client';
 import dbConnect from '../utils/db-connect';
-import Daglig from '../models/daglig';
+import { Daglig } from '../models/daglig';
 
 const IndexPage = () => {
   return (

@@ -1,0 +1,31 @@
+.postlistitem {
+  list-style-type: none;
+}
+
+.message {
+  margin-top: 2rem;
+  width: 100%;
+  border-bottom: 4px solid var(--black);
+  border-radius: 0;
+  padding: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14pt;
+  line-height: 22pt;
+  text-align: justify;
+}
+
+.message p {
+  padding: 0;
+  margin: 0;
+}
+
+.messageactions {
+  display: flex;
+  border-bottom: 4px solid var(--greydark);
+  font-size: 10pt;
+  padding: 0.5rem;
+}
+
+.likes {
+  margin-left: auto;
+}

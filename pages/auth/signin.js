@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { providers, signIn, getSession } from 'next-auth/client';
-import Daglig from '../../models/daglig';
+import { Daglig } from '../../models/daglig';
 import dbConnect from '../../utils/db-connect';
 import styles from '../../styles/signin.module.css';
 

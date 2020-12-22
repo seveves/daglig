@@ -51,9 +51,9 @@ const ProfileHead = ({ daglig, ttl, back }) => {
                 <h1>{daglig.username}</h1>
               </a>
             </Link>
-            <div className="d-flex align-items-center">
+            <div className={styles.profilesub}>
               <h2>{prettyttl} left</h2>
-              <h2 className="ml-auto pr-2">created {prettycreated} ago</h2>
+              <h2>created {prettycreated} ago</h2>
             </div>
           </div>
           {!back && (

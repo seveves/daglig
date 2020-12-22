@@ -1,4 +1,4 @@
-import Daglig from '../../models/daglig';
+import { Daglig } from '../../models/daglig';
 import dbConnect from '../../utils/db-connect';
 import mongoose from 'mongoose';
 

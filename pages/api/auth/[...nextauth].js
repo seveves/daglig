@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
-import Daglig from '../../../models/daglig';
+import { Daglig } from '../../../models/daglig';
 import dbConnect from '../../../utils/db-connect';
 
 const options = {

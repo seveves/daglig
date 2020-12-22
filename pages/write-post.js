@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { getSession } from 'next-auth/client';
 
-import Daglig from '../models/daglig';
+import { Daglig } from '../models/daglig';
 import dbConnect from '../utils/db-connect';
 import { ttlExpired } from '../utils/ttl';
 import { dagligBack, dagligProps } from '../utils/daglig';
