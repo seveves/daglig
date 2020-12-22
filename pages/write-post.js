@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import { getSession } from 'next-auth/client';
-import prettyms from 'pretty-ms';
 
 import Daglig from '../models/daglig';
 import dbConnect from '../utils/db-connect';
@@ -8,8 +7,7 @@ import ProfileHead from '../components/ProfileHead';
 import WritePostForm from '../components/WritePostForm';
 import { ttlExpired } from '../utils/ttl';
 
-const WritePostPage = ({ daglig, ttl }) => {
-  const prettyttl = prettyms(ttl);
+const WritePostPage = ({ daglig, ttl, back }) => {
   return (
     <div className="container">
       <Head>
@@ -17,7 +15,7 @@ const WritePostPage = ({ daglig, ttl }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <ProfileHead daglig={daglig} ttl={prettyttl} back={`/${daglig.username}`} />
+        <ProfileHead daglig={daglig} ttl={ttl} back={back} />
         <WritePostForm daglig={daglig} />
       </main>
     </div>
@@ -69,7 +67,11 @@ export async function getServerSideProps(context) {
         createdAt: daglig.createdAt.getTime(),
       },
       ttl,
-      session,
+      back: session
+        ? session.user.id !== daglig.userid
+          ? session.user.name
+          : false
+        : false,
     },
   };
 }

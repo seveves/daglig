@@ -30,6 +30,9 @@ h1 {
 
 .container {
   min-height: 100vh;
+  max-width: 38rem;
+  height: 100%;
+  margin: auto;
   padding: 2rem;
 }
 
@@ -68,6 +71,14 @@ h1 {
 
 .align-items-center {
   align-items: center;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.pr-2 {
+  padding-right: 2rem;
 }
 
 .centered {

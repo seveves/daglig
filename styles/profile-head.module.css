@@ -11,8 +11,28 @@
   border: 4px solid var(--black);
 }
 
+.profileimg {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
 .profileinfo {
   padding-left: 2rem;
+  flex: 1;
+}
+
+.profilelink {
+  font-size: 10pt;
+  display: inline-flex;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+.profilelink span {
+  padding-bottom: 1px;
+}
+
+.profilelink:hover {
+  opacity: 0.5;
 }
 
 .profileinfo h1 {

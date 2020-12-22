@@ -27,6 +27,7 @@ const options = {
   callbacks: {
     session: async (session, user) => {
       session.user.id = user.userid;
+      session.user.name = user.username;
       return Promise.resolve(session);
     },
     jwt: async (token, user, account, profile, isNewUser) => {
@@ -34,14 +35,13 @@ const options = {
       if (isSignIn) {
         const isGithub = account.provider === 'github';
         const prefix = isGithub ? 'gh_' : 'tw_';
-        console.log(profile);
         const userid = `${prefix}${profile.id}`;
         token.userid = userid;
 
         await dbConnect();
         const exists = await Daglig.findOne({ userid: { $eq: userid } });
+        let username = isGithub ? profile.login : profile.screen_name;
         if (!exists) {
-          let username = isGithub ? profile.login : profile.screen_name;
           const nameExists = await Daglig.findOne({ username: { $eq: username }});
           if (nameExists) {
             username = `${username}_`;
@@ -54,6 +54,7 @@ const options = {
           });
           await daglig.save();
         }
+        token.username = username;
       }
       return Promise.resolve(token);
     },

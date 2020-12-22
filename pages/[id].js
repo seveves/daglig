@@ -4,7 +4,6 @@ import { getSession } from 'next-auth/client';
 import insane from 'insane';
 import marked from 'marked';
 import prettyms from 'pretty-ms';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import Daglig from '../models/daglig';
 import styles from '../styles/daglig.module.css';
@@ -13,10 +12,9 @@ import { ttlExpired } from '../utils/ttl';
 import ProfileHead from '../components/ProfileHead';
 import LikeDisplay from '../components/LikeDisplay';
 
-const DagligPage = ({ daglig, ttl, owner, userId }) => {
-  const prettyttl = prettyms(ttl);
+const DagligPage = ({ daglig, ttl, owner, back, userId }) => {
   const empty = daglig.posts.length == 0;
-  const prettycreated = (t) => formatDistanceToNow(new Date(t));
+  const prettycreated = (t) => prettyms(Date.now() - t, { compact: true });
   return (
     <div className="container">
       <Head>
@@ -24,7 +22,7 @@ const DagligPage = ({ daglig, ttl, owner, userId }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <ProfileHead daglig={daglig} ttl={prettyttl} back={'/'} owner={owner} />
+        <ProfileHead daglig={daglig} ttl={ttl} back={back} />
         <ul className={styles.postlist}>
           {daglig.posts.map((post) => (
             <li key={post.createdAt}>
@@ -32,13 +30,21 @@ const DagligPage = ({ daglig, ttl, owner, userId }) => {
                 className={styles.message}
                 dangerouslySetInnerHTML={{
                   __html: insane(marked(post.message, { gfm: true }), {
-                    allowedTags: ['h1', 'p', 'u', 'em', 'strong', 'code'],
+                    allowedTags: [
+                      'h1',
+                      'p',
+                      'u',
+                      'em',
+                      'strong',
+                      'code',
+                      'pre',
+                    ],
                   }),
                 }}
               ></article>
               <div className={styles.messageactions}>
                 <div className={styles.created}>
-                  {prettycreated(post.createdAt)} ago
+                  about {prettycreated(post.createdAt)} ago
                 </div>
                 <div className={styles.likes}>
                   <LikeDisplay
@@ -109,6 +115,11 @@ export async function getServerSideProps(context) {
       },
       ttl,
       owner: session ? session.user.id === daglig.userid : false,
+      back: session
+        ? session.user.id !== daglig.userid
+          ? session.user.name || false
+          : false
+        : false,
       userId: session?.user?.id || null,
     },
   };
