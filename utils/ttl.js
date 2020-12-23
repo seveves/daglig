@@ -1,15 +1,19 @@
-export const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
 
-export function ttlExpired(posts, createdAt) {
-  const now = Date.now();
-  let ttl = ONE_DAY_IN_MS - (now - createdAt.getTime());
-  if (posts?.length > 0) {
-    const latest = posts[posts.length - 1];
-    const latestTime = latest.createdAt.getTime();
-    const likesExtraMinutes =
-      latest.likes?.length > 0 ? latest.likes.length * 60 * 1000 : 0;
-    ttl = ONE_DAY_IN_MS - (now - latestTime) + likesExtraMinutes;
+export function ttlExpired(now, daglig) {
+  let startOfCreated = new Date(daglig.createdAt);
+  let extraMs = 0;
+  if (daglig.posts?.length > 0) {
+    const latestPost = daglig.posts[daglig.posts.length - 1];
+    startOfCreated = new Date(latestPost.createdAt);
+    const likesAmount = latestPost.likes?.length;
+    if (likesAmount > 0) {
+      extraMs = likesAmount * 60 * 1000;
+    }
   }
-  const expired = ttl > ONE_DAY_IN_MS;
-  return { ttl, expired };
+  startOfCreated.setHours(0, 0, 0, 0);
+  const startOfNextDay = new Date(startOfCreated);
+  startOfNextDay.setDate(startOfNextDay.getDate() + 1);
+  const ttl = (startOfNextDay.getTime() + extraMs) - now.getTime();
+  const expired = ttl <= 0;
+  return { expired, ttl: !expired ? ttl : 0 };
 }

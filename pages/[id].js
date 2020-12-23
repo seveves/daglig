@@ -64,7 +64,7 @@ export async function getServerSideProps(context) {
   const daglig = await Daglig.findOne({ username: { $eq: name } });
   if (!daglig) return redirect;
 
-  const { expired, ttl } = ttlExpired(daglig.posts, daglig.createdAt);
+  const { expired, ttl } = ttlExpired(new Date(), daglig);
   if (expired) {
     await Daglig.findByIdAndDelete(daglig._id);
     return redirect;

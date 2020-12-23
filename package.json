@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "insane": "^2.6.2",
@@ -22,6 +23,11 @@
     "mongodb": "^3.6.0"
   },
   "devDependencies": {
-    "jsonwebtoken": "^8.5.1"
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "react-test-renderer": "^17.0.1"
   }
 }
