@@ -1,8 +1,6 @@
 import Head from 'next/head';
-import Link from 'next/link';
+import { useState } from 'react';
 import { getSession } from 'next-auth/client';
-
-import styles from '../styles/daglig.module.css';
 
 import { Daglig } from '../models/daglig';
 import dbConnect from '../utils/db-connect';
@@ -10,39 +8,32 @@ import { ttlExpired } from '../utils/ttl';
 import { dagligProps } from '../utils/daglig';
 
 import ProfileHead from '../components/ProfileHead';
-import PostListItem from '../components/PostListItem';
+import FavoriteListItem from '../components/FavoriteListItem';
 
-const DagligPage = ({ daglig, ttl, owner, sessionDaglig }) => {
-  const empty = daglig.posts.length === 0;
+import styles from '../styles/favorites.module.css';
+
+const FavoritesPage = ({ daglig, ttl, sessionDaglig }) => {
+  const [favorites, setFavorites] = useState(daglig.favorites);
+
+  const onRemoved = (id) => {
+    setFavorites(favorites.filter((f) => f.id !== id));
+  };
+
   return (
     <div className="container">
       <Head>
-        <title>daglig - {daglig.username}</title>
+        <title>daglig - {daglig.username} - favorites</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <ProfileHead daglig={daglig} ttl={ttl} sessionDaglig={sessionDaglig} />
-        <ul className={styles.postlist}>
-          {daglig.posts.map((post) => (
-            <PostListItem
-              key={post.createdAt}
-              post={post}
-              owner={owner}
-              userId={sessionDaglig?.userid}
-              daglig={daglig}
-            />
+        <h1>favorites</h1>
+        <ul className={styles.favoriteslist}>
+          {favorites.map((f) => (
+            <FavoriteListItem key={f.id} favorite={f} removed={onRemoved} />
           ))}
         </ul>
-        {empty && owner && (
-          <div className={styles.firstpost}>
-            <Link href="/write-post">
-              <a>
-                <span className={'linkbtn ' + styles.postbtn}>post</span>
-              </a>
-            </Link>
-          </div>
-        )}
-        {empty && !owner && <p>this profile is still empty.</p>}
+        {favorites.length === 0 && <p><b>you</b> have <u>no</u> starred diaries <i>at the moment</i>. </p>}
       </main>
     </div>
   );
@@ -56,11 +47,18 @@ export async function getServerSideProps(context) {
     },
   };
 
-  const name = context.params?.id;
-  if (!name) return redirect;
-
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permament: false,
+      },
+    };
+  }
   await dbConnect();
-  const daglig = await Daglig.findOne({ username: { $eq: name } });
+  const userid = session.user.id;
+  const daglig = await Daglig.findOne({ userid: { $eq: userid } });
   if (!daglig) return redirect;
 
   const { expired, ttl } = ttlExpired(new Date(), daglig);
@@ -68,20 +66,20 @@ export async function getServerSideProps(context) {
     await Daglig.findByIdAndDelete(daglig._id);
     return redirect;
   }
-  const session = await getSession(context);
+
   let sessionDaglig = null;
   if (session) {
     const sDaglig = await Daglig.findOne({ userid: { $eq: session.user.id } });
     sessionDaglig = dagligProps(sDaglig);
   }
+
   return {
     props: {
       ttl,
       daglig: dagligProps(daglig),
-      owner: session ? session.user.id === daglig.userid : false,
       sessionDaglig,
     },
   };
 }
 
-export default DagligPage;
+export default FavoritesPage;

@@ -33,7 +33,7 @@ export default async (req, res) => {
         $in: toDelete,
       },
     });
-    res.status(200).json({ statusCode: 200 });
+    res.status(200).json({ statusCode: 200, toDelete });
   } else {
     res.setHeader('Allow', 'POST');
     res.status(405).end('method not allowed');

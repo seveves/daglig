@@ -12,14 +12,11 @@ export function dagligProps(daglig) {
         likes: p.likes.map((l) => `${l}`),
       }))
       .reverse(),
+    favorites: daglig.favorites.map((f) => ({
+      id: `${f._id}`,
+      dagligId: f.dagligId,
+      dagligUserName: f.dagligUserName,
+    })),
     createdAt: daglig.createdAt.getTime(),
   };
-}
-
-export function dagligBack(session, daglig) {
-  return session
-    ? session.user.id !== daglig.userid
-      ? session.user.name || false
-      : false
-    : false;
 }

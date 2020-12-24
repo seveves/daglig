@@ -48,5 +48,5 @@ const DagligV2 =
 module.exports = {
   DagligV1,
   DagligV2,
-  Daglig: DagligV1,
+  Daglig: DagligV2,
 };

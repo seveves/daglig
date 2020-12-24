@@ -1,4 +1,4 @@
-import { ttlExpired, ONE_DAY_IN_MS } from './ttl';
+import { ttlExpired } from './ttl';
 
 describe('ttlExpired', () => {
   test('same time - use createdAt when posts are null', () => {

@@ -5,7 +5,9 @@ import styles from '../styles/profile-head.module.css';
 import prettyms from 'pretty-ms';
 import { ONE_DAY_IN_MS } from '../utils/ttl';
 
-const ProfileHead = ({ daglig, ttl, back }) => {
+import Visitor from './Visitor';
+
+const ProfileHead = ({ daglig, ttl, sessionDaglig }) => {
   const [more, setMore] = useState(false);
 
   const toggleMore = () => {
@@ -22,22 +24,11 @@ const ProfileHead = ({ daglig, ttl, back }) => {
     filter: `grayscale(${left}%)`,
   };
 
+  const owner = sessionDaglig && sessionDaglig.id === daglig.id;
+
   return (
     <>
-      {back && (
-        <Link href={`/${back}`}>
-          <a className={styles.profilelink}>
-            <Image
-              src="/caret-left-fill.svg"
-              alt="show profile actions"
-              width="16"
-              height="16"
-              title="back to profile"
-            />
-            <span>back to {back}</span>
-          </a>
-        </Link>
-      )}
+      <Visitor daglig={daglig} sessionDaglig={sessionDaglig} />
       <div className={styles.profile}>
         <Link href={`/${daglig.username}`}>
           <a>
@@ -56,7 +47,7 @@ const ProfileHead = ({ daglig, ttl, back }) => {
               <h2>created {prettycreated} ago</h2>
             </div>
           </div>
-          {!back && (
+          {owner && (
             <button className={styles.more} onClick={toggleMore}>
               <Image
                 src="/three-dots-vertical.svg"
@@ -68,10 +59,13 @@ const ProfileHead = ({ daglig, ttl, back }) => {
             </button>
           )}
         </div>
-        {more && !back && (
+        {more && owner && (
           <div className={styles.moremenu}>
             <Link href="/write-post">
               <a className={styles.moreaction}>post</a>
+            </Link>
+            <Link href="/favorites">
+              <a className={styles.moreaction}>favorites</a>
             </Link>
             <Link href="/api/auth/signout">
               <a className={styles.moreaction + ' ' + styles.signout}>

@@ -1,3 +1,4 @@
+export const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 export function ttlExpired(now, daglig) {
   let startOfCreated = new Date(daglig.createdAt);
@@ -13,7 +14,7 @@ export function ttlExpired(now, daglig) {
   startOfCreated.setHours(0, 0, 0, 0);
   const startOfNextDay = new Date(startOfCreated);
   startOfNextDay.setDate(startOfNextDay.getDate() + 1);
-  const ttl = (startOfNextDay.getTime() + extraMs) - now.getTime();
+  const ttl = startOfNextDay.getTime() + extraMs - now.getTime();
   const expired = ttl <= 0;
   return { expired, ttl: !expired ? ttl : 0 };
 }

@@ -1,11 +1,19 @@
+import { getSession } from 'next-auth/client';
 import { Daglig } from '../../models/daglig';
 import dbConnect from '../../utils/db-connect';
 
 export default async (req, res) => {
   if (req.method === 'POST') {
     const { dagligId, userId, postId } = req.body;
+    const session = await getSession({ req });
+    if (!session || !session.user?.id) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: 'no active session',
+      });
+    }
 
-    if (!dagligId || !userId || !postId) {
+    if (!dagligId || !userId || !postId || userId !== session.user.id) {
       return res.status(400).json({
         statusCode: 400,
         message: 'missing some information to like',

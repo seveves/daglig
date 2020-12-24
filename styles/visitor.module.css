@@ -1,0 +1,35 @@
+.visitor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.profilelink {
+  font-size: 10pt;
+  display: inline-flex;
+  align-items: center;
+  padding-bottom: 1rem;
+  font-weight: bold;
+  padding-right: 2rem;
+}
+
+.profilelink span {
+  padding-bottom: 1px;
+}
+
+.profilelink:hover {
+  opacity: 0.5;
+}
+
+.favorite {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.favorite:focus {
+  outline: none;
+}
