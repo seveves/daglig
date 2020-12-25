@@ -1,4 +1,4 @@
-import { ttlExpired } from './ttl';
+import { ONE_DAY_IN_MS, ttlExpired } from './ttl';
 
 describe('ttlExpired', () => {
   test('same time - use createdAt when posts are null', () => {
@@ -91,7 +91,7 @@ describe('ttlExpired', () => {
     };
     const { expired, ttl } = ttlExpired(now, daglig);
     expect(expired).toBe(false);
-    expect(ttl).toBe(14 * 60 * 60 * 1000);
+    expect(ttl).toBe(14 * 60 * 60 * 1000 + ONE_DAY_IN_MS);
   });
 
   test('12h old - use createdAt of oldest post', () => {
@@ -154,6 +154,6 @@ describe('ttlExpired', () => {
     };
     const { expired, ttl } = ttlExpired(now, daglig);
     expect(expired).toBe(false);
-    expect(ttl).toBe(50580000); // 14h and 3min
+    expect(ttl).toBe(50580000 + ONE_DAY_IN_MS); // 14h and 3min
   });
 });
