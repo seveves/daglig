@@ -18,6 +18,7 @@ const WritePostPage = ({ daglig, ttl, sessionDaglig }) => {
       </Head>
       <main>
         <ProfileHead daglig={daglig} ttl={ttl} sessionDaglig={sessionDaglig} />
+        <h1>write post</h1>
         <WritePostForm daglig={daglig} />
       </main>
     </div>

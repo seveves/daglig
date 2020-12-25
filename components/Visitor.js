@@ -12,7 +12,7 @@ const Visitor = ({ daglig, sessionDaglig }) => {
 
   const [loading, setLoading] = useState(false);
   const [favorite, setFavorite] = useState(
-    daglig.favorites.some((f) => f.dagligId === sessionDaglig.id)
+    sessionDaglig.favorites.some((f) => f.dagligId === daglig.id)
   );
 
   const toggleFavorite = async (e) => {

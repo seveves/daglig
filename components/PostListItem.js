@@ -1,15 +1,32 @@
+import Link from 'next/link';
 import insane from 'insane';
 import marked from 'marked';
 import prettyms from 'pretty-ms';
 
 import LikeDisplay from './LikeDisplay';
 
+import { ttlGrayscale } from '../utils/ttl';
+
 import styles from '../styles/post-list-item.module.css';
 
-const PostListItem = ({ post, owner, userId, daglig }) => {
+const PostListItem = ({ post, owner, userId, dagligId }) => {
   const prettycreated = (t) => prettyms(Date.now() - t, { compact: true });
   return (
     <li className={styles.postlistitem}>
+      {post.user != null && (
+        <div className={styles.user}>
+          <Link href={`/${post.user.username}`}>
+            <a>
+              <img
+                style={ttlGrayscale(post.user.ttlExpired.ttl)}
+                src={post.user.image}
+                alt="Profile Image"
+              />
+              <h2>{post.user.username}</h2>
+            </a>
+          </Link>
+        </div>
+      )}
       <article
         className={styles.message}
         dangerouslySetInnerHTML={{
@@ -25,7 +42,7 @@ const PostListItem = ({ post, owner, userId, daglig }) => {
             likes={post.likes}
             owner={owner}
             postId={post.id}
-            dagligId={daglig.id}
+            dagligId={dagligId}
             userId={userId}
           />
         </div>

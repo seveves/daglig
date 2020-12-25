@@ -23,7 +23,7 @@ const SignInPage = ({ providers }) => {
         {Object.values(providers).map((provider) => (
           <div key={provider.name}>
             <button
-              className={'linkbtn invert ' + styles.providerbtn}
+              className="linkbtn invert mwbtn"
               onClick={() => signIn(provider.id)}
             >
               <div className="d-flex align-items-center">

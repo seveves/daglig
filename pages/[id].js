@@ -29,7 +29,7 @@ const DagligPage = ({ daglig, ttl, owner, sessionDaglig }) => {
               post={post}
               owner={owner}
               userId={sessionDaglig?.userid}
-              daglig={daglig}
+              dagligId={daglig?.id}
             />
           ))}
         </ul>

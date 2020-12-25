@@ -30,7 +30,7 @@ const FavoritesPage = ({ daglig, ttl, sessionDaglig }) => {
         <h1>favorites</h1>
         <ul className={styles.favoriteslist}>
           {favorites.map((f) => (
-            <FavoriteListItem key={f.id} favorite={f} removed={onRemoved} />
+            <FavoriteListItem key={f.id} favorite={f} removed={(e) => onRemoved(e)} />
           ))}
         </ul>
         {favorites.length === 0 && <p><b>you</b> have <u>no</u> starred diaries <i>at the moment</i>. </p>}

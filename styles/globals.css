@@ -101,6 +101,16 @@ h1 {
   text-align: justify;
 }
 
+.signin {
+  text-align: center;
+  width: 100%;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  border-top: 4px solid var(--black);
+  border-bottom: 4px solid var(--greydark);
+  margin-bottom: 0rem;
+}
+
 code,
 pre,
 tt {
@@ -109,4 +119,10 @@ tt {
   background-color: var(--lightgrey);
   padding: 2px;
   border-radius: 4px;
+}
+
+.mwbtn {
+  min-width: 300px;
+  margin-bottom: 1rem;
+  text-align: center;
 }

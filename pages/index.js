@@ -13,10 +13,17 @@ const IndexPage = () => {
       </Head>
       <main className="centered">
         <h1>daglig</h1>
-        <p className="welcome">welcome to daglig. a <b>diary</b> where you <u>have</u> to write at least one post a day. if not the whole diary will be <i>deleted</i>.
-        but <b>every like</b> of your <u>latest post</u> will give you <i>one more minute</i> of extra lifetime.</p>
+        <p className="welcome">
+          welcome to daglig. a <b>diary</b> where you <u>have</u> to write at
+          least one post a day. if not the whole diary will be <i>deleted</i>.
+          but <b>every like</b> of your <u>latest post</u> will give you{' '}
+          <i>one more minute</i> of extra lifetime.
+        </p>
+        <Link href="/browse">
+          <a className="linkbtn mwbtn">browse</a>
+        </Link>
         <Link href="/auth/signin">
-          <a className="linkbtn invert">sign in</a>
+          <a className="linkbtn invert mwbtn">sign in</a>
         </Link>
       </main>
     </div>
@@ -31,10 +38,11 @@ export async function getServerSideProps(context) {
     },
   };
   const session = await getSession(context);
-  if (!session)
+  if (!session) {
     return {
       props: {},
     };
+  }
 
   await dbConnect();
   const daglig = await Daglig.findOne({ userid: { $eq: session.user.id } });
@@ -42,7 +50,7 @@ export async function getServerSideProps(context) {
 
   return {
     redirect: {
-      destination: `/${daglig.username}`,
+      destination: `/browse`,
       permament: false,
     },
   };

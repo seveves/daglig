@@ -25,3 +25,13 @@ export function ttlExpired(now, daglig) {
   const expired = ttl <= 0;
   return { expired, ttl: !expired ? ttl : 0 };
 }
+
+export function ttlGrayscale(ttl) {
+  const left = Math.round(((ONE_DAY_IN_MS - ttl) / ONE_DAY_IN_MS) * 100);
+  const leftNorm = left < 0 ? 0 : left > 100 ? 100 : 0;
+  const grayscale = {
+    WebkitFilter: `grayscale(${leftNorm}%)`,
+    filter: `grayscale(${leftNorm}%)`,
+  };
+  return grayscale;
+}

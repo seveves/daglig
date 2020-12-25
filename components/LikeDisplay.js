@@ -27,7 +27,7 @@ const LikeDisplay = ({ likes, owner, postId, dagligId, userId }) => {
 
   return (
     <div className={styles.likedisplay}>
-      {owner || !userId || !dagligId ? (
+      {owner || (!dagligId && !userId) ? (
         <div className={styles.iconbtn}>
           <Image
             src="/suit-heart.svg"

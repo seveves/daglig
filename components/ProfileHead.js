@@ -3,11 +3,15 @@ import Image from 'next/image';
 import { useState } from 'react';
 import styles from '../styles/profile-head.module.css';
 import prettyms from 'pretty-ms';
-import { ONE_DAY_IN_MS } from '../utils/ttl';
+import { ONE_DAY_IN_MS, ttlGrayscale } from '../utils/ttl';
 
 import Visitor from './Visitor';
 
 const ProfileHead = ({ daglig, ttl, sessionDaglig }) => {
+  if (!daglig && !sessionDaglig) {
+    return null;
+  }
+
   const [more, setMore] = useState(false);
 
   const toggleMore = () => {
@@ -18,11 +22,6 @@ const ProfileHead = ({ daglig, ttl, sessionDaglig }) => {
   const prettycreated = prettyms(Date.now() - daglig.createdAt, {
     compact: true,
   });
-  const left = Math.round(((ONE_DAY_IN_MS - ttl) / ONE_DAY_IN_MS) * 100);
-  const grayscale = {
-    WebkitFilter: `grayscale(${left}%)`,
-    filter: `grayscale(${left}%)`,
-  };
 
   const owner = sessionDaglig && sessionDaglig.id === daglig.id;
 
@@ -32,7 +31,11 @@ const ProfileHead = ({ daglig, ttl, sessionDaglig }) => {
       <div className={styles.profile}>
         <Link href={`/${daglig.username}`}>
           <a>
-            <img style={grayscale} src={daglig.image} alt="Profile Image" />
+            <img
+              style={ttlGrayscale(ttl)}
+              src={daglig.image}
+              alt="Profile Image"
+            />
           </a>
         </Link>
         <div className={styles.profiledetails}>
@@ -60,18 +63,23 @@ const ProfileHead = ({ daglig, ttl, sessionDaglig }) => {
           )}
         </div>
         {more && owner && (
-          <div className={styles.moremenu}>
-            <Link href="/write-post">
-              <a className={styles.moreaction}>post</a>
-            </Link>
-            <Link href="/favorites">
-              <a className={styles.moreaction}>favorites</a>
-            </Link>
-            <Link href="/api/auth/signout">
-              <a className={styles.moreaction + ' ' + styles.signout}>
-                sign out
-              </a>
-            </Link>
+          <div className={styles.backdrop} onClick={toggleMore}>
+            <div className={styles.moremenu}>
+              <Link href="/write-post">
+                <a className={styles.moreaction}>post</a>
+              </Link>
+              <Link href="/browse">
+                <a className={styles.moreaction}>browse</a>
+              </Link>
+              <Link href="/favorites">
+                <a className={styles.moreaction}>favorites</a>
+              </Link>
+              <Link href="/api/auth/signout">
+                <a className={styles.moreaction + ' ' + styles.signout}>
+                  sign out
+                </a>
+              </Link>
+            </div>
           </div>
         )}
       </div>
