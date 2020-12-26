@@ -74,19 +74,16 @@ export async function getServerSideProps(context) {
   const posts = dagligs
     .map((d) => ({ ...dagligProps(d), ttlExpired: ttlExpired(d) }))
     .filter((d) => d.posts.length > 0)
-    .map(
-      (d) =>
-        d.posts.map((p) => ({
-          ...p,
-          user: {
-            id: d.id,
-            userid: d.userid,
-            username: d.username,
-            image: d.image,
-            ttlExpired: d.ttlExpired,
-          },
-        }))[d.posts.length - 1]
-    )
+    .map((d) => ({
+      ...d.posts[0],
+      user: {
+        id: d.id,
+        userid: d.userid,
+        username: d.username,
+        image: d.image,
+        ttlExpired: d.ttlExpired,
+      },
+    }))
     .filter((p) => !p.user.ttlExpired.expired)
     .reduce((p, c) => [...p, c], []);
 
