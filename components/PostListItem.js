@@ -5,12 +5,12 @@ import prettyms from 'pretty-ms';
 
 import LikeDisplay from './LikeDisplay';
 
-import { ttlGrayscale } from '../utils/ttl';
+import { ttlGrayscale, UTCDate } from '../utils/ttl';
 
 import styles from '../styles/post-list-item.module.css';
 
 const PostListItem = ({ post, owner, userId, dagligId }) => {
-  const prettycreated = (t) => prettyms(Date.now() - t, { compact: true });
+  const prettycreated = (t) => prettyms(UTCDate(new Date()).getTime() - t, { compact: true });
   return (
     <li className={styles.postlistitem}>
       {post.user != null && (

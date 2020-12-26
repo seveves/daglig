@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import styles from '../styles/profile-head.module.css';
 import prettyms from 'pretty-ms';
-import { ONE_DAY_IN_MS, ttlGrayscale } from '../utils/ttl';
+import { ttlGrayscale, UTCDate } from '../utils/ttl';
 
 import Visitor from './Visitor';
 
@@ -19,7 +19,7 @@ const ProfileHead = ({ daglig, ttl, sessionDaglig }) => {
   };
 
   const prettyttl = prettyms(ttl);
-  const prettycreated = prettyms(Date.now() - daglig.createdAt, {
+  const prettycreated = prettyms(UTCDate(new Date()).getTime() - daglig.createdAt, {
     compact: true,
   });
 

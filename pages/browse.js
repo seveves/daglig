@@ -65,7 +65,6 @@ export async function getServerSideProps(context) {
       permament: false,
     },
   };
-  const now = new Date();
 
   await dbConnect();
 
@@ -73,7 +72,7 @@ export async function getServerSideProps(context) {
   if (!dagligs) return redirect;
 
   const posts = dagligs
-    .map((d) => ({ ...dagligProps(d), ttlExpired: ttlExpired(now, d) }))
+    .map((d) => ({ ...dagligProps(d), ttlExpired: ttlExpired(d) }))
     .map(
       (d) =>
         d.posts.map((p) => ({
@@ -99,7 +98,7 @@ export async function getServerSideProps(context) {
   let sessionTtl = 0;
   if (session) {
     const sDaglig = await Daglig.findOne({ userid: { $eq: session.user.id } });
-    const { expired, ttl } = ttlExpired(now, sDaglig);
+    const { expired, ttl } = ttlExpired(sDaglig);
     if (expired) {
       await Daglig.findByIdAndDelete(sDaglig._id);
       return redirect;

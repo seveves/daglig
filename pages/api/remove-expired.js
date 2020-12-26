@@ -24,7 +24,7 @@ export default async (req, res) => {
     const dagligs = await Daglig.find({});
     const toDelete = dagligs
       .filter((daglig) => {
-        const { expired } = ttlExpired(new Date(), daglig);
+        const { expired } = ttlExpired(daglig);
         return expired;
       })
       .map((d) => d._id);
