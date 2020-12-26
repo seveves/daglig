@@ -73,6 +73,7 @@ export async function getServerSideProps(context) {
 
   const posts = dagligs
     .map((d) => ({ ...dagligProps(d), ttlExpired: ttlExpired(d) }))
+    .filter((d) => d.posts.length > 0)
     .map(
       (d) =>
         d.posts.map((p) => ({
